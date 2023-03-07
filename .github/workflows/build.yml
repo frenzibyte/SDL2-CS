@@ -114,3 +114,27 @@ jobs:
         path: 'SDL2-CS'
       env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+
+  build-ios:
+    name: ios
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: 'libsdl-org/SDL'
+        ref: 'SDL2'
+    - uses: actions/checkout@v3
+      with:
+        path: 'SDL2-CS'
+    - name: Build
+      run: xcodebuild -project ./xcode/SDL/SDL.xcproj
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        commit-message: Update iOS SDL binaries
+        title: Update iOS SDL binaries
+        body: This PR has been auto-genereated to update the iOS SDL binaries
+        branch: update-ios-binaries
+        path: 'SDL2-CS'
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
